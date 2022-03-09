@@ -9,12 +9,12 @@ import UIKit
 
 class ViewController: UICollectionViewController {
     
-    enum Section : CaseIterable{
-        case featured
-        case lakes
-        case montains
-        case favorites
-        case rivers
+    enum Section : String, CaseIterable{
+        case featured = "Featured"
+        case lakes = "Lakes"
+        case mountains = "Mountains"
+        case favorites = "Favorites"
+        case rivers = "Rivers"
     }
     
     enum Item : Hashable {
@@ -26,7 +26,11 @@ class ViewController: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
+        collectionView.register(UINib(nibName: "HeaderCollectionReusableView", bundle: nil),
+                                forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+                                withReuseIdentifier: HeaderCollectionReusableView.reuseIdentifier)
+        
         configureDataSource()
         collectionView.collectionViewLayout = createLayout()
         loadInitialState()
@@ -36,16 +40,33 @@ class ViewController: UICollectionViewController {
         diffableDataSource = UICollectionViewDiffableDataSource(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
             switch itemIdentifier {
             case .bigCell(let landmark, _):
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "horizontalBigCell", for: indexPath) as? HorizontalBigCellView
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HorizontalBigCellView.reuseIdentifier, for: indexPath) as? HorizontalBigCellView
                 cell?.configure(landmark)
                 return cell
             case .smallCell(let landmark, _):
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "horizontalSmallCell", for: indexPath) as? HorizontalSmallCellView
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HorizontalSmallCellView.reuseIdentifier, for: indexPath) as? HorizontalSmallCellView
                 cell?.configure(landmark)
                 return cell
             }
         })
+        
+        diffableDataSource.supplementaryViewProvider = .some{ collectionView, elementKind, indexPath in
+            switch elementKind {
+            case UICollectionView.elementKindSectionHeader:
+                let section = self.diffableDataSource.sectionIdentifier(for: indexPath.section)
+                let header = collectionView.dequeueReusableSupplementaryView(
+                    ofKind: elementKind,
+                    withReuseIdentifier: HeaderCollectionReusableView.reuseIdentifier,
+                    for: indexPath) as? HeaderCollectionReusableView
+                header?.configure(section)
+                return header
+            default:
+                return nil
+            }
+            
+        }
     }
+        
     
     private func createSnapshot() -> NSDiffableDataSourceSnapshot<Section, Item> {
         var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
@@ -64,7 +85,7 @@ class ViewController: UICollectionViewController {
         let montainsItems = JsonRepository.shared.getLandmarksOf(.montains).map { landmark in
             return Item.smallCell(landmark)
         }
-        snapshot.appendItems(montainsItems, toSection: Section.montains)
+        snapshot.appendItems(montainsItems, toSection: Section.mountains)
         
         let favoriteItems = JsonRepository.shared.getFavoriteLandmarks().map { landmark in
             return Item.bigCell(landmark)
@@ -97,7 +118,7 @@ class ViewController: UICollectionViewController {
                 return self.buildBigCellLayout()
             case .lakes:
                 return self.buildSmallCellLayout()
-            case .montains:
+            case .mountains:
                 return self.buildSmallCellLayout()
             case .favorites:
                 return self.buildBigCellLayout()
@@ -124,6 +145,14 @@ class ViewController: UICollectionViewController {
     }
     
     private func buildSmallCellLayout() -> NSCollectionLayoutSection{
+        
+        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                heightDimension: .absolute(50.0))
+        let header = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: headerSize,
+            elementKind: UICollectionView.elementKindSectionHeader,
+            alignment: .top)
+        
         let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(125), heightDimension: .absolute(150))
         
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
@@ -134,6 +163,7 @@ class ViewController: UICollectionViewController {
         
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .groupPaging
+        section.boundarySupplementaryItems = [header]
         
         return section
     }
