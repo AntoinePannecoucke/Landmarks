@@ -14,6 +14,10 @@
 		083AC55C27D8BB4F007B5A5F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 083AC55A27D8BB4F007B5A5F /* LaunchScreen.storyboard */; };
 		083AC56427D8BC3D007B5A5F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 083AC56327D8BC3D007B5A5F /* Assets.xcassets */; };
 		083AC56627D8BC43007B5A5F /* landmarkData.json in Resources */ = {isa = PBXBuildFile; fileRef = 083AC56527D8BC43007B5A5F /* landmarkData.json */; };
+		083AC56A27D8BDE4007B5A5F /* JsonRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 083AC56927D8BDE4007B5A5F /* JsonRepository.swift */; };
+		083AC56D27D8BF63007B5A5F /* Landmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 083AC56C27D8BF63007B5A5F /* Landmark.swift */; };
+		083AC57327D8DA31007B5A5F /* HorizontalBigCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 083AC57227D8DA31007B5A5F /* HorizontalBigCellView.swift */; };
+		083AC57527D8DADF007B5A5F /* HorizontalSmallCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 083AC57427D8DADF007B5A5F /* HorizontalSmallCellView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +30,10 @@
 		083AC55D27D8BB4F007B5A5F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		083AC56327D8BC3D007B5A5F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		083AC56527D8BC43007B5A5F /* landmarkData.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = landmarkData.json; sourceTree = "<group>"; };
+		083AC56927D8BDE4007B5A5F /* JsonRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonRepository.swift; sourceTree = "<group>"; };
+		083AC56C27D8BF63007B5A5F /* Landmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Landmark.swift; sourceTree = "<group>"; };
+		083AC57227D8DA31007B5A5F /* HorizontalBigCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalBigCellView.swift; sourceTree = "<group>"; };
+		083AC57427D8DADF007B5A5F /* HorizontalSmallCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalSmallCellView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +66,9 @@
 		083AC54E27D8BB4E007B5A5F /* Landmarks */ = {
 			isa = PBXGroup;
 			children = (
+				083AC57027D8D935007B5A5F /* View */,
+				083AC56B27D8BF4F007B5A5F /* Model */,
+				083AC56827D8BDCC007B5A5F /* Repository */,
 				083AC54F27D8BB4E007B5A5F /* AppDelegate.swift */,
 				083AC55127D8BB4E007B5A5F /* SceneDelegate.swift */,
 				083AC55327D8BB4E007B5A5F /* ViewController.swift */,
@@ -68,6 +79,31 @@
 				083AC56527D8BC43007B5A5F /* landmarkData.json */,
 			);
 			path = Landmarks;
+			sourceTree = "<group>";
+		};
+		083AC56827D8BDCC007B5A5F /* Repository */ = {
+			isa = PBXGroup;
+			children = (
+				083AC56927D8BDE4007B5A5F /* JsonRepository.swift */,
+			);
+			path = Repository;
+			sourceTree = "<group>";
+		};
+		083AC56B27D8BF4F007B5A5F /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				083AC56C27D8BF63007B5A5F /* Landmark.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		083AC57027D8D935007B5A5F /* View */ = {
+			isa = PBXGroup;
+			children = (
+				083AC57227D8DA31007B5A5F /* HorizontalBigCellView.swift */,
+				083AC57427D8DADF007B5A5F /* HorizontalSmallCellView.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -143,8 +179,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				083AC55427D8BB4E007B5A5F /* ViewController.swift in Sources */,
+				083AC56A27D8BDE4007B5A5F /* JsonRepository.swift in Sources */,
 				083AC55027D8BB4E007B5A5F /* AppDelegate.swift in Sources */,
 				083AC55227D8BB4E007B5A5F /* SceneDelegate.swift in Sources */,
+				083AC57327D8DA31007B5A5F /* HorizontalBigCellView.swift in Sources */,
+				083AC57527D8DADF007B5A5F /* HorizontalSmallCellView.swift in Sources */,
+				083AC56D27D8BF63007B5A5F /* Landmark.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
