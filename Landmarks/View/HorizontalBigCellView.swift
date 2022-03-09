@@ -12,7 +12,7 @@ class HorizontalBigCellView : UICollectionViewCell {
     @IBOutlet weak var landmarkPhoto : UIImageView!
     
     func configure(_ landmark : Landmark) {
-        self.landmarkName.text = landmark.name
-        self.landmarkPhoto.image = UIImage(named: landmark.imageName)
+        landmarkName.text = landmark.name
+        landmarkPhoto.image = UIImage(named: landmark.imageName)
     }
 }
