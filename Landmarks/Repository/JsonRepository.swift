@@ -31,7 +31,7 @@ class JsonRepository {
     func getFeaturedLandmarks() -> Array<Landmark>{
         return landmarks.filter { landmark in
             return landmark.isFeatured == true
-        }.shuffled()
+        }
     }
     
     func getLandmarksOf(_ category : Category) -> Array<Landmark> {
@@ -43,10 +43,16 @@ class JsonRepository {
     func getFavoriteLandmarks() -> Array<Landmark> {
         return landmarks.filter { landmark in
             return landmark.isFavorite == true
-        }.shuffled()
+        }
     }
     
     func getLandmarks() -> Array<Landmark> {
         return landmarks
+    }
+    
+    func searchLandmarksWith(_ argument: String) -> Array<Landmark>{
+        return getLandmarks().filter { landmark in
+            return landmark.name.localizedCaseInsensitiveContains(argument)
+        }
     }
 }

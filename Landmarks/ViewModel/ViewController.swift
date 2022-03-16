@@ -24,12 +24,50 @@ class ViewController: UICollectionViewController {
     
     var diffableDataSource : UICollectionViewDiffableDataSource<Section, Item>!
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        switch segue.identifier {
+        case "showLandmarkDetailsSegue":
+            
+            let cell = sender as! UICollectionViewCell
+            
+            guard let destination = segue.destination as? DetailsViewController,
+                  let indexPath = collectionView.indexPath(for: cell)
+            else {
+                return
+            }
+            
+            let section = diffableDataSource.sectionIdentifier(for: indexPath.section)
+            
+            switch section {
+            case .featured:
+                destination.landmark = JsonRepository.shared.getFeaturedLandmarks()[indexPath.item]
+            case .lakes:
+                destination.landmark = JsonRepository.shared.getLandmarksOf(.lakes)[indexPath.item]
+            case .mountains:
+                destination.landmark = JsonRepository.shared.getLandmarksOf(.montains)[indexPath.item]
+            case .favorites:
+                destination.landmark = JsonRepository.shared.getFavoriteLandmarks()[indexPath.item]
+            case .rivers:
+                destination.landmark = JsonRepository.shared.getLandmarksOf(.rivers)[indexPath.item]
+            default:
+                break
+            }
+            
+        default:
+            return
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         collectionView.register(UINib(nibName: "HeaderCollectionReusableView", bundle: nil),
                                 forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                                 withReuseIdentifier: HeaderCollectionReusableView.reuseIdentifier)
+        
+        let searchController = UISearchController(searchResultsController: SearchListCollectionViewController.instantiate())
+        searchController.searchResultsUpdater = self
+        navigationItem.searchController = searchController
         
         configureDataSource()
         collectionView.collectionViewLayout = createLayout()
@@ -115,60 +153,34 @@ class ViewController: UICollectionViewController {
             
             switch section {
             case .featured:
-                return self.buildBigCellLayout()
+                return HorizontalBigCellView.build(collectionLayoutEnvironment)
             case .lakes:
-                return self.buildSmallCellLayout()
+                return HorizontalSmallCellView.build(collectionLayoutEnvironment)
             case .mountains:
-                return self.buildSmallCellLayout()
+                return HorizontalSmallCellView.build(collectionLayoutEnvironment)
             case .favorites:
-                return self.buildBigCellLayout()
+                return HorizontalBigCellView.build(collectionLayoutEnvironment)
             case .rivers:
-                return self.buildSmallCellLayout()
+                return HorizontalSmallCellView.build(collectionLayoutEnvironment)
             }
         }
         return layout
     }
-    
-    private func buildBigCellLayout() -> NSCollectionLayoutSection{
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(250))
-        
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(250))
-        
-        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitem: item, count: 1)
-        
-        let section = NSCollectionLayoutSection(group: group)
-        section.orthogonalScrollingBehavior = .groupPaging
-        
-        return section
-    }
-    
-    private func buildSmallCellLayout() -> NSCollectionLayoutSection{
-        
-        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                heightDimension: .absolute(50.0))
-        let header = NSCollectionLayoutBoundarySupplementaryItem(
-            layoutSize: headerSize,
-            elementKind: UICollectionView.elementKindSectionHeader,
-            alignment: .top)
-        
-        let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(125), heightDimension: .absolute(150))
-        
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        
-        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(125), heightDimension: .absolute(150))
-        
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 1)
-        
-        let section = NSCollectionLayoutSection(group: group)
-        section.orthogonalScrollingBehavior = .groupPaging
-        section.boundarySupplementaryItems = [header]
-        
-        return section
-    }
 }
 
+
+extension ViewController : UISearchResultsUpdating {
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let searchQuery = searchController.searchBar.text,
+              let list = searchController.searchResultsController as? SearchListCollectionViewController else {
+            return
+        }
+
+        list.landmarks = JsonRepository.shared.searchLandmarksWith(searchQuery)
+    }
+    
+}
 
 
 extension UICollectionReusableView {
@@ -176,4 +188,5 @@ extension UICollectionReusableView {
         return String(describing: self)
     }
 }
+
 

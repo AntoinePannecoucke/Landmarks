@@ -1,23 +1,31 @@
 //
-//  AllLandmarksCollectionViewController.swift
+//  SearchListCollectionViewController.swift
 //  Landmarks
 //
-//  Created by lpiem on 09/03/2022.
+//  Created by lpiem on 16/03/2022.
 //
 
 import UIKit
 
 private let reuseIdentifier = "Cell"
 
-class AllLandmarksCollectionViewController: UICollectionViewController {
+class SearchListCollectionViewController: UICollectionViewController {
 
     enum Section {
         case main
     }
     
-    enum Item : Hashable {
-        case mediumCell(Landmark)
+    enum Item : Hashable{
+        case cell(Landmark)
     }
+    
+    var landmarks : Array<Landmark> = [] {
+        didSet {
+            loadInitialState()
+        }
+    }
+    
+    var delegate : SearchLandmarkNavigationControllerDelegate? = nil
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
@@ -30,7 +38,7 @@ class AllLandmarksCollectionViewController: UICollectionViewController {
                 return
             }
             
-            destination.landmark = JsonRepository.shared.getLandmarks()[indexPath.item]
+            destination.landmark = landmarks[indexPath.item]
             
         default:
             return
@@ -41,33 +49,40 @@ class AllLandmarksCollectionViewController: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+
 
         configureDataSource()
         collectionView.collectionViewLayout = createLayout()
         loadInitialState()
     }
-
+    
     private func configureDataSource() {
         diffableDataSource = UICollectionViewDiffableDataSource(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
             switch itemIdentifier {
-            case .mediumCell(let landmark):
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: VerticalMediumCellView.reuseIdentifier, for: indexPath) as? VerticalMediumCellView
+            case .cell(let landmark):
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchCollectionViewCell.reuseIdentifier, for: indexPath) as? SearchCollectionViewCell
                 cell?.configure(landmark)
                 return cell
             }
         })
+    }
+        
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
     }
     
     private func createSnapshot() -> NSDiffableDataSourceSnapshot<Section, Item> {
         var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
         snapshot.appendSections([.main])
         
-        let items = JsonRepository.shared.getLandmarks().map(Item.mediumCell)
-        snapshot.appendItems(items, toSection: Section.main)
+        let searchedItems = landmarks.map { landmark in
+            return Item.cell(landmark)
+        }
+        snapshot.appendItems(searchedItems, toSection: Section.main)
         
         return snapshot
     }
+    
     
     private func loadInitialState() {
         let snapshot = createSnapshot()
@@ -83,10 +98,26 @@ class AllLandmarksCollectionViewController: UICollectionViewController {
             
             switch section {
             case .main:
-                return VerticalMediumCellView.build(collectionLayoutEnvironment)
+                return NSCollectionLayoutSection.list(using: .init(appearance: .insetGrouped), layoutEnvironment: collectionLayoutEnvironment)
             }
         }
         return layout
     }
+
+    
+
 }
 
+extension SearchListCollectionViewController {
+    static func instantiate() -> SearchListCollectionViewController {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        let controller = storyboard.instantiateViewController(withIdentifier: "SearchListCollectionViewController") as! SearchListCollectionViewController
+        
+        return controller
+    }
+}
+
+protocol SearchLandmarkNavigationControllerDelegate {
+    func goToDetailsOf(_ landmark : Landmark)
+}
