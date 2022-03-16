@@ -10,7 +10,6 @@ import UIKit
 private let reuseIdentifier = "Cell"
 
 class AllLandmarksCollectionViewController: UICollectionViewController {
-
     enum Section {
         case main
     }
@@ -43,6 +42,10 @@ class AllLandmarksCollectionViewController: UICollectionViewController {
         super.viewDidLoad()
         self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
 
+        let searchController = UISearchController(searchResultsController: SearchListCollectionViewController.instantiate(self))
+        searchController.searchResultsUpdater = self
+        navigationItem.searchController = searchController
+        
         configureDataSource()
         collectionView.collectionViewLayout = createLayout()
         loadInitialState()
@@ -88,5 +91,34 @@ class AllLandmarksCollectionViewController: UICollectionViewController {
         }
         return layout
     }
+}
+
+extension AllLandmarksCollectionViewController : UISearchResultsUpdating {
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let searchQuery = searchController.searchBar.text,
+              let list = searchController.searchResultsController as? SearchListCollectionViewController else {
+            return
+        }
+
+        list.landmarks = JsonRepository.shared.searchLandmarksWith(searchQuery)
+    }
+    
+}
+
+extension AllLandmarksCollectionViewController : SearchLandmarkNavigationControllerDelegate {
+    
+    func goToDetailsOf(_ landmark: Landmark) {
+        guard let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "DetailsViewController") as? DetailsViewController,
+              let navigationController = self.navigationController
+        else {
+            return
+        }
+        
+        viewController.landmark = landmark
+        
+        navigationController.pushViewController(viewController, animated: true)
+    }
+    
 }
 

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ViewController: UICollectionViewController {
+class HomeViewController: UICollectionViewController {
     
     enum Section : String, CaseIterable{
         case featured = "Featured"
@@ -65,7 +65,7 @@ class ViewController: UICollectionViewController {
                                 forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                                 withReuseIdentifier: HeaderCollectionReusableView.reuseIdentifier)
         
-        let searchController = UISearchController(searchResultsController: SearchListCollectionViewController.instantiate())
+        let searchController = UISearchController(searchResultsController: SearchListCollectionViewController.instantiate(self))
         searchController.searchResultsUpdater = self
         navigationItem.searchController = searchController
         
@@ -169,7 +169,7 @@ class ViewController: UICollectionViewController {
 }
 
 
-extension ViewController : UISearchResultsUpdating {
+extension HomeViewController : UISearchResultsUpdating {
     
     func updateSearchResults(for searchController: UISearchController) {
         guard let searchQuery = searchController.searchBar.text,
@@ -187,6 +187,22 @@ extension UICollectionReusableView {
     static var reuseIdentifier : String {
         return String(describing: self)
     }
+}
+
+extension HomeViewController : SearchLandmarkNavigationControllerDelegate {
+    
+    func goToDetailsOf(_ landmark: Landmark) {
+        guard let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "DetailsViewController") as? DetailsViewController,
+              let navigationController = self.navigationController
+        else {
+            return
+        }
+        
+        viewController.landmark = landmark
+        
+        navigationController.pushViewController(viewController, animated: true)
+    }
+    
 }
 
 

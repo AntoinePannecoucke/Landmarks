@@ -68,7 +68,11 @@ class SearchListCollectionViewController: UICollectionViewController {
     }
         
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
+        guard let delegate = delegate else {
+            return
+        }
+
+        delegate.goToDetailsOf(landmarks[indexPath.item])
     }
     
     private func createSnapshot() -> NSDiffableDataSourceSnapshot<Section, Item> {
@@ -109,10 +113,12 @@ class SearchListCollectionViewController: UICollectionViewController {
 }
 
 extension SearchListCollectionViewController {
-    static func instantiate() -> SearchListCollectionViewController {
+    static func instantiate(_ delegate : SearchLandmarkNavigationControllerDelegate) -> SearchListCollectionViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
         let controller = storyboard.instantiateViewController(withIdentifier: "SearchListCollectionViewController") as! SearchListCollectionViewController
+        
+        controller.delegate = delegate
         
         return controller
     }

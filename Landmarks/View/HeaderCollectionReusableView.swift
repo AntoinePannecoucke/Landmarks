@@ -10,7 +10,7 @@ import UIKit
 class HeaderCollectionReusableView : UICollectionReusableView {
     @IBOutlet weak var title : UILabel!
     
-    func configure(_ section : ViewController.Section?){
+    func configure(_ section : HomeViewController.Section?){
         guard let section = section else {
             title.text = ""
             return

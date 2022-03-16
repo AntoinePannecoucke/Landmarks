@@ -23,7 +23,7 @@ class VerticalMediumCellView : UICollectionViewCell {
     static func build(_ environment : NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection{
         
         switch  (environment.traitCollection.horizontalSizeClass, environment.traitCollection.verticalSizeClass) {
-        case (.compact, .regular):
+        case (.compact, _):
             return buildCompactCell()
         case (_, _):
             return buildRegularCell()
