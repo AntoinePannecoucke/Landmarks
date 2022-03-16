@@ -278,19 +278,19 @@
                                 <rect key="frame" x="0.0" y="126" width="1024" height="1240"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" layoutMarginsFollowReadableWidth="YES" text="Description" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dh6-lA-Onf">
-                                        <rect key="frame" x="20" y="378" width="984" height="20.5"/>
+                                        <rect key="frame" x="232" y="378" width="560" height="20.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="State" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Eal-di-AXL">
-                                        <rect key="frame" x="20" y="340" width="984" height="23"/>
+                                        <rect key="frame" x="232" y="340" width="560" height="23"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
                                         <nil key="textColor"/>
                                         <color key="highlightedColor" systemColor="secondaryLabelColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Park" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N0J-tX-wU1">
-                                        <rect key="frame" x="20" y="305" width="984" height="30"/>
+                                        <rect key="frame" x="232" y="305" width="560" height="30"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
                                         <nil key="textColor"/>
                                         <color key="highlightedColor" systemColor="secondaryLabelColor"/>
@@ -311,19 +311,19 @@
                                 </subviews>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="ScU-RE-3Uo" secondAttribute="trailing" id="6Sk-2B-hi4"/>
-                                    <constraint firstItem="dh6-lA-Onf" firstAttribute="leading" secondItem="ZJa-ce-1wn" secondAttribute="leading" constant="20" id="E22-GU-mfn"/>
+                                    <constraint firstItem="dh6-lA-Onf" firstAttribute="leading" secondItem="ZJa-ce-1wn" secondAttribute="leadingMargin" id="E22-GU-mfn"/>
                                     <constraint firstItem="ScU-RE-3Uo" firstAttribute="bottom" secondItem="VfS-sQ-kJ5" secondAttribute="centerY" id="F6P-yT-A8X"/>
-                                    <constraint firstItem="U82-zO-aQg" firstAttribute="trailing" secondItem="N0J-tX-wU1" secondAttribute="trailing" constant="20" id="GQ7-ps-d5t"/>
+                                    <constraint firstAttribute="trailingMargin" secondItem="N0J-tX-wU1" secondAttribute="trailing" id="GQ7-ps-d5t"/>
                                     <constraint firstItem="ScU-RE-3Uo" firstAttribute="top" secondItem="WKh-ZN-7da" secondAttribute="top" id="HiJ-Mt-Jta"/>
                                     <constraint firstItem="ScU-RE-3Uo" firstAttribute="leading" secondItem="ZJa-ce-1wn" secondAttribute="leading" id="IoS-xk-8kB"/>
                                     <constraint firstItem="Eal-di-AXL" firstAttribute="top" secondItem="N0J-tX-wU1" secondAttribute="bottom" constant="5" id="Jqm-yc-Prl"/>
-                                    <constraint firstItem="N0J-tX-wU1" firstAttribute="leading" secondItem="U82-zO-aQg" secondAttribute="leading" constant="20" id="LR2-ZR-JPq"/>
+                                    <constraint firstItem="N0J-tX-wU1" firstAttribute="leading" secondItem="ZJa-ce-1wn" secondAttribute="leadingMargin" id="LR2-ZR-JPq"/>
                                     <constraint firstItem="VfS-sQ-kJ5" firstAttribute="centerX" secondItem="ZJa-ce-1wn" secondAttribute="centerX" id="Lr3-XS-ZZL"/>
                                     <constraint firstItem="dh6-lA-Onf" firstAttribute="top" secondItem="Eal-di-AXL" secondAttribute="bottom" constant="15" id="Nlx-In-jpm"/>
                                     <constraint firstItem="N0J-tX-wU1" firstAttribute="top" secondItem="VfS-sQ-kJ5" secondAttribute="bottom" constant="10" id="QJO-5V-Pv6"/>
-                                    <constraint firstItem="N0J-tX-wU1" firstAttribute="trailing" secondItem="Eal-di-AXL" secondAttribute="trailing" id="hlF-e4-AXC"/>
-                                    <constraint firstAttribute="trailing" secondItem="dh6-lA-Onf" secondAttribute="trailing" constant="20" id="hvQ-u0-Gdg"/>
-                                    <constraint firstItem="N0J-tX-wU1" firstAttribute="leading" secondItem="Eal-di-AXL" secondAttribute="leading" id="lBJ-cE-yR6"/>
+                                    <constraint firstAttribute="trailingMargin" secondItem="Eal-di-AXL" secondAttribute="trailing" id="hlF-e4-AXC"/>
+                                    <constraint firstAttribute="trailingMargin" secondItem="dh6-lA-Onf" secondAttribute="trailing" id="hvQ-u0-Gdg"/>
+                                    <constraint firstAttribute="leadingMargin" secondItem="Eal-di-AXL" secondAttribute="leading" id="lBJ-cE-yR6"/>
                                     <constraint firstAttribute="bottom" secondItem="dh6-lA-Onf" secondAttribute="bottom" id="m9Q-MQ-SRi"/>
                                     <constraint firstItem="ScU-RE-3Uo" firstAttribute="centerX" secondItem="ZJa-ce-1wn" secondAttribute="centerX" id="oat-VI-XEM"/>
                                 </constraints>
